@@ -40,7 +40,13 @@ const _layout = () => {
 				</View>
 
 				<CustomButton />
-				<CustomInput />
+				<CustomInput
+					placeholder="Enter Your Email Id"
+					value={""}
+					onChangeText={(text) => {}}
+					label="Email"
+					keyboardType="email-address"
+				/>
 			</ScrollView>
 			<Slot />
 		</KeyboardAvoidingView>
