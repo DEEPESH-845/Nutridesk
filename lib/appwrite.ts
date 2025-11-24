@@ -1,6 +1,6 @@
 
 import { CreateUserParams, SignInParams } from "@/type";
-import { Account, Avatars, Client, Databases, ID } from "react-native-appwrite";
+import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
 
 export const appwriteConfig = {
 endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
@@ -20,9 +20,16 @@ const avatars = new Avatars(client);
 
 export const createUser = async({email , password , name}: CreateUserParams) => {
    try{
-    
-    
-      const newAccount = await account.create(ID.unique() , email , name , password)
+
+    // DEBUGGING LINE: Check what is actually being sent
+    console.log("Creating Account with:", {
+       email: email, 
+       passwordLength: password.length, // Should be >= 8
+       passwordValue: password,         // Verify this isn't your Name!
+       name: name 
+    });
+
+      const newAccount = await account.create(ID.unique() , email ,  password , name );
 
       if(!newAccount) throw Error;
 
@@ -33,7 +40,7 @@ export const createUser = async({email , password , name}: CreateUserParams) => 
         appwriteConfig.databaseId,
         appwriteConfig.userCollectionId,
         ID.unique(),
-        { email , name , accountId: newAccount.$id , avatar: avatarUrl }
+        { email: email , name: name , accountid: newAccount.$id , avatar: avatarUrl }
       );
    }catch(e){
       throw new Error(e as string)
@@ -49,4 +56,25 @@ export const signIn = async ({email , password}: SignInParams  ) => {
     }catch(e){
         throw new Error(e as string);
     }
+}
+
+export const getCurrentUser = async() => {
+    try{
+        const currentAccount = await account.get();
+        if(!currentAccount) throw Error;
+
+        const currentUser = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            [Query.equal("accountid" , currentAccount.$id)]
+        )
+
+        if(!currentUser) throw Error
+
+        return currentUser.documents[0];
+    }catch(e){
+        console.log(e);
+        throw new Error(e as string);
+    }
+
 }
