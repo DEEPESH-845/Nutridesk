@@ -39,16 +39,8 @@ const _layout = () => {
 					/>
 				</View>
 
-				<CustomButton />
-				<CustomInput
-					placeholder="Enter Your Email Id"
-					value={""}
-					onChangeText={(text) => {}}
-					label="Email"
-					keyboardType="email-address"
-				/>
+				<Slot />
 			</ScrollView>
-			<Slot />
 		</KeyboardAvoidingView>
 	);
 };

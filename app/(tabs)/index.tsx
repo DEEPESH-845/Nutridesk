@@ -3,7 +3,6 @@ import { Fragment } from "react";
 import {
 	FlatList,
 	Image,
-	ImageBackground,
 	Pressable,
 	Text,
 	TouchableOpacity,
