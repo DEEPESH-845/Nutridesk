@@ -9,13 +9,16 @@ import {
 	View,
 } from "react-native";
 
-import { Slot } from "expo-router";
+import { Redirect, Slot } from "expo-router";
 
 import { images } from "@/constants";
-import CustomButton from "@/components/CustomButton";
-import CustomInput from "@/components/CustomInput";
+import useAuthStore from "@/store/auth.store";
 
-const _layout = () => {
+const AuthLayout = () => {
+	const { isAuthenticated } = useAuthStore();
+	if (isAuthenticated) {
+		return <Redirect href="/" />;
+	}
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -44,4 +47,4 @@ const _layout = () => {
 		</KeyboardAvoidingView>
 	);
 };
-export default _layout;
+export default AuthLayout;
