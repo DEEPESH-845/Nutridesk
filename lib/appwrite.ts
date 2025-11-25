@@ -7,7 +7,12 @@ endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
 projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
 platform:"com.dk.nutridesk",
 databaseId: "6924520100130664cbb3",
-userCollectionId: "user"
+bucketId: "692570170018cf90e00a",
+userCollectionId: "user",
+categoriesCollectionId: "categories",
+menuCollectionId: "menu",
+customisationCollectionId: "customisation",
+menuCustomizationCollectionId: "menuCustomization",
 }
 
 export const client = new Client();

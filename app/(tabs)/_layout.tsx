@@ -61,7 +61,7 @@ const TabLayout = () => {
 				}}
 			/>
 			<Tabs.Screen
-				name="Search"
+				name="search"
 				options={{
 					title: "Search",
 					tabBarIcon: ({ focused }) => (
