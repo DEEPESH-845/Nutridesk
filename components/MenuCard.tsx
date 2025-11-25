@@ -1,10 +1,14 @@
-import { View, Text, Platform, Image, TouchableOpacity } from "react-native";
+import { Text, Platform, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { MenuItem } from "@/type";
-import { appwriteConfig } from "@/lib/appwrite";
+import { useCartStore } from "@/store/cart.store";
 
-const MenuCard = ({ item: { image_url, name, price } }: { item: MenuItem }) => {
-	const imageUrl = `${image_url}?project=${appwriteConfig.projectId}`;
+const MenuCard = ({
+	item: { $id, image_url, name, price },
+}: {
+	item: MenuItem;
+}) => {
+	const { addItem } = useCartStore();
 
 	return (
 		<TouchableOpacity
@@ -16,8 +20,9 @@ const MenuCard = ({ item: { image_url, name, price } }: { item: MenuItem }) => {
 			}
 		>
 			<Image
-				source={{ uri: imageUrl }}
-				className="size-32 absolute -top-10 object-contain"
+				source={{ uri: image_url }}
+				className="size-32 absolute -top-10 "
+				resizeMode="contain"
 			/>
 			<Text
 				className="text-center base-bold text-dark-100 mb-2"
@@ -26,7 +31,17 @@ const MenuCard = ({ item: { image_url, name, price } }: { item: MenuItem }) => {
 				{name}
 			</Text>
 			<Text className="body-regular text-gray-200 mb-4 ">From ${price}</Text>
-			<TouchableOpacity onPress={() => {}}>
+			<TouchableOpacity
+				onPress={() =>
+					addItem({
+						id: $id,
+						name,
+						price,
+						image_url: image_url,
+						customisation: [],
+					})
+				}
+			>
 				<Text className="paragraph-bold text-primary">Add to Cart +</Text>
 			</TouchableOpacity>
 		</TouchableOpacity>
